@@ -19,16 +19,16 @@ public struct MagnifierRect: View {
                 .foregroundColor(self.colorScheme == .dark ? Color.white : Color.black)
             if (self.colorScheme == .dark ){
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.white, lineWidth: self.colorScheme == .dark ? 2 : 0)
+//                    .stroke(Color.white, lineWidth: self.colorScheme == .dark ? 2 : 0)
                     .frame(width: 60, height: 260)
             }else{
                 RoundedRectangle(cornerRadius: 16)
                     .frame(width: 60, height: 280)
-                    .foregroundColor(Color.white)
+//                    .foregroundColor(Color.white)
                     .shadow(color: Colors.LegendText, radius: 12, x: 0, y: 6 )
                     .blendMode(.multiply)
             }
         }
-        .offset(x: 0, y: -15)
+//        .offset(x: 0, y: -15)
     }
 }
