@@ -26,7 +26,7 @@ public struct Line: View {
         if data.points.count < 2 {
             return 0
         }
-        return frame.size.width / CGFloat(data.points.count-1)
+        return frame.size.width / CGFloat(data.points.count - 1)
     }
     var stepHeight: CGFloat {
         var min: Double?
@@ -43,9 +43,9 @@ public struct Line: View {
         }
         if let min = min, let max = max, min != max {
             if (min <= 0){
-                return (frame.size.height-padding) / CGFloat(max - min)
+                return (frame.size.height - padding) / CGFloat(max - min)
             } else {
-                return (frame.size.height-padding) / CGFloat(max - min)
+                return (frame.size.height - padding) / CGFloat(max - min)
             }
         }
         return 0
@@ -71,7 +71,7 @@ public struct Line: View {
             }
             self.path
                 .trim(from: 0, to: self.showFull ? 1 : 0)
-                .stroke(LinearGradient(gradient: gradient.getGradient(), startPoint: .leading, endPoint: .trailing) ,style: StrokeStyle(lineWidth: 3, lineJoin: .round))
+                .stroke(LinearGradient(gradient: gradient.getGradient(), startPoint: .leading, endPoint: .trailing) ,style: StrokeStyle(lineWidth: 2, lineJoin: .round))
                 .rotationEffect(.degrees(180), anchor: .center)
                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 .animation(Animation.easeOut(duration: 1.2).delay(Double(self.index) * 0.4))
