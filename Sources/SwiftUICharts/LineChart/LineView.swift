@@ -16,6 +16,8 @@ public struct LineView: View {
     public var valueSpecifier: String
     public var legendSpecifier: String
     
+    let lineWidth: CGFloat
+    
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var legendText: String = ""
     @State private var dragLocation: CGPoint = .zero
@@ -33,12 +35,14 @@ public struct LineView: View {
                 title: String? = nil,
                 legend: String? = nil,
                 style: ChartStyle = Styles.lineChartStyleOne,
+                lineWidth: CGFloat = 2,
                 valueSpecifier: String? = "%.1f",
                 legendSpecifier: String? = "%.2f") {
         
         self.data = ChartData(points: data)
         self.title = title
         self.style = style
+        self.lineWidth = lineWidth
         self.valueSpecifier = valueSpecifier!
         self.legendSpecifier = legendSpecifier!
         self.darkModeStyle = style.darkModeStyle != nil ? style.darkModeStyle! : Styles.lineViewDarkMode
@@ -72,6 +76,7 @@ public struct LineView: View {
                          minDataValue: .constant(nil),
                          maxDataValue: .constant(nil),
                          showBackground: false,
+                         lineWidth: self.lineWidth,
                          gradient: self.style.gradientColor
                     )
                 }

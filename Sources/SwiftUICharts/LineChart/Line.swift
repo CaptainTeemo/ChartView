@@ -18,6 +18,8 @@ public struct Line: View {
     @State private var showFull: Bool = false
     @State var showBackground: Bool = true
     
+    var lineWidth: CGFloat = 2
+    
     var gradient: GradientColor = GradientColor(start: Colors.GradientPurple, end: Colors.GradientNeonBlue)
     var index: Int = 0
     let padding: CGFloat = 30
