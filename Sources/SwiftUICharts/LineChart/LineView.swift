@@ -20,6 +20,7 @@ public struct LineView: View {
     
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var legendText: String = ""
+    @State private var showLegend: Bool = false
     @State private var dragLocation: CGPoint = .zero
     @State private var indicatorLocation: CGPoint = .zero
     @State private var closestPoint: CGPoint = .zero
@@ -33,7 +34,7 @@ public struct LineView: View {
     
     public init(data: [Double],
                 title: String? = nil,
-                legend: String? = nil,
+                showLegend: Bool = false,
                 style: ChartStyle = Styles.lineChartStyleOne,
                 lineWidth: CGFloat = 2,
                 valueSpecifier: String? = "%.1f",
@@ -41,6 +42,7 @@ public struct LineView: View {
         
         self.data = ChartData(points: data)
         self.title = title
+        self.showLegend = showLegend
         self.style = style
         self.lineWidth = lineWidth
         self.valueSpecifier = valueSpecifier!
@@ -65,10 +67,12 @@ public struct LineView: View {
                 ZStack {
                     Rectangle()
                         .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.backgroundColor : self.style.backgroundColor)
-                    Legend(data: self.data,
-                           frame: .constant(reader.frame(in: .local)), hideHorizontalLines: self.$hideHorizontalLines, specifier: legendSpecifier)
-                        .transition(.opacity)
-                        .animation(Animation.easeOut(duration: 1).delay(1))
+                    if (showLegend) {
+                        Legend(data: self.data,
+                               frame: .constant(reader.frame(in: .local)), hideHorizontalLines: self.$hideHorizontalLines, specifier: legendSpecifier)
+                            .transition(.opacity)
+                            .animation(Animation.easeOut(duration: 1).delay(1))
+                    }
                     Line(data: self.data,
                          frame: .constant(reader.frame(in: .local)),
                          touchLocation: self.$indicatorLocation,
