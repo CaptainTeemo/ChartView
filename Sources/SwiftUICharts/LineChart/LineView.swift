@@ -11,6 +11,7 @@ import SwiftUI
 public struct LineView: View {
     @ObservedObject var data: ChartData
     public var title: String?
+    public var showLegend: Bool
     public var style: ChartStyle
     public var darkModeStyle: ChartStyle
     public var valueSpecifier: String
@@ -20,7 +21,6 @@ public struct LineView: View {
     
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var legendText: String = ""
-    @State private var showLegend: Bool = false
     @State private var dragLocation: CGPoint = .zero
     @State private var indicatorLocation: CGPoint = .zero
     @State private var closestPoint: CGPoint = .zero
