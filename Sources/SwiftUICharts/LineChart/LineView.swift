@@ -16,7 +16,7 @@ public struct LineView: View {
     public var darkModeStyle: ChartStyle
     public var valueSpecifier: String
     public var legendSpecifier: String
-    public var backgroundColor: Color = .clear
+    public var backgroundColor: Color
     
     let lineWidth: CGFloat
     
@@ -41,7 +41,8 @@ public struct LineView: View {
                 style: ChartStyle = Styles.lineChartStyleOne,
                 lineWidth: CGFloat = 2,
                 valueSpecifier: String? = "%.1f",
-                legendSpecifier: String? = "%.2f") {
+                legendSpecifier: String? = "%.2f",
+                backgroundColor: Color = .clear) {
         
         self.data = data
         self.title = title
@@ -50,6 +51,7 @@ public struct LineView: View {
         self.lineWidth = lineWidth
         self.valueSpecifier = valueSpecifier!
         self.legendSpecifier = legendSpecifier!
+        self.backgroundColor = backgroundColor
         self.darkModeStyle = style.darkModeStyle != nil ? style.darkModeStyle! : Styles.lineViewDarkMode
     }
     
