@@ -99,6 +99,7 @@ public struct LineView: View {
                              minDataValue: .constant(nil),
                              maxDataValue: .constant(nil),
                              showBackground: false,
+                             backgroundColor: backgroundColor
                              lineWidth: self.lineWidth,
                              gradient: self.style.gradientColor
                         )
