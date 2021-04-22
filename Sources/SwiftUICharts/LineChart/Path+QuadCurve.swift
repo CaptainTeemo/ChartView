@@ -115,17 +115,18 @@ extension Path {
         return ret
     }
     
-    static func quadCurvedPathWithPoints(points:[Double], step:CGPoint, globalOffset: Double? = nil) -> Path {
+    static func quadCurvedPathWithPoints(points:[Double], step: CGPoint, globalOffsetX: CGFloat? = nil, globalOffsetY: CGFloat? = nil) -> Path {
         var path = Path()
         if (points.count < 2){
             return path
         }
-        let offset = globalOffset ?? points.min()!
+        let offsetX = globalOffsetX ?? 0
+        let offsetY = points.min()! + Double(globalOffsetY ?? 0)
 //        guard let offset = points.min() else { return path }
-        var p1 = CGPoint(x: 0, y: CGFloat(points[0]-offset)*step.y)
+        var p1 = CGPoint(x: offsetX, y: CGFloat(points[0]-offsetY)*step.y)
         path.move(to: p1)
         for pointIndex in 1..<points.count {
-            let p2 = CGPoint(x: step.x * CGFloat(pointIndex), y: step.y*CGFloat(points[pointIndex]-offset))
+            let p2 = CGPoint(x: step.x * CGFloat(pointIndex), y: step.y*CGFloat(points[pointIndex]-offsetY))
             let midPoint = CGPoint.midPointForPoints(p1: p1, p2: p2)
             path.addQuadCurve(to: midPoint, control: CGPoint.controlPointForPoints(p1: midPoint, p2: p1))
             path.addQuadCurve(to: p2, control: CGPoint.controlPointForPoints(p1: midPoint, p2: p2))

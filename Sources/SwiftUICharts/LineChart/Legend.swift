@@ -75,6 +75,8 @@ struct Legend: View {
                     let width = (frame.size.width - padding * 2) / CGFloat(data.points.count - 1)
                     HStack {
                         Text(title)
+                            .foregroundColor(Colors.LegendText)
+                            .font(.caption)
                         Spacer()
                     }
                     .frame(width: width)

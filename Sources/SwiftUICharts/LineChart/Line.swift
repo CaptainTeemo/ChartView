@@ -23,6 +23,7 @@ public struct Line: View {
     var gradient: GradientColor = GradientColor(start: Colors.GradientPurple, end: Colors.GradientNeonBlue)
     var index: Int = 0
     let padding: CGFloat = 30
+    var offset: CGPoint = .zero
     var curvedLines: Bool = true
     var stepWidth: CGFloat {
         if data.points.count < 2 {
@@ -54,7 +55,7 @@ public struct Line: View {
     }
     var path: Path {
         let points = self.data.onlyPoints()
-        return curvedLines ? Path.quadCurvedPathWithPoints(points: points, step: CGPoint(x: stepWidth, y: stepHeight), globalOffset: minDataValue) : Path.linePathWithPoints(points: points, step: CGPoint(x: stepWidth, y: stepHeight))
+        return curvedLines ? Path.quadCurvedPathWithPoints(points: points, step: CGPoint(x: stepWidth, y: stepHeight), globalOffsetX: offset.x, globalOffsetY: offset.y) : Path.linePathWithPoints(points: points, step: CGPoint(x: stepWidth, y: stepHeight))
     }
     var closedPath: Path {
         let points = self.data.onlyPoints()

@@ -75,17 +75,18 @@ public struct LineView: View {
                                hideHorizontalLines: self.$hideHorizontalLines,
                                startPoint: $lineStartPoint,
                                specifier: legendSpecifier)
+                        
                         Line(data: self.data,
-                             frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width - lineStartPoint, height: reader.frame(in: .local).height + 8)),
+                             frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height + 8)),
                              touchLocation: self.$indicatorLocation,
                              showIndicator: self.$hideHorizontalLines,
                              minDataValue: .constant(nil),
                              maxDataValue: .constant(nil),
                              showBackground: false,
                              lineWidth: self.lineWidth,
-                             gradient: self.style.gradientColor
+                             gradient: self.style.gradientColor,
+                             offset: CGPoint(x: lineStartPoint, y: -2)
                         )
-                        .offset(x: lineStartPoint, y: -18)
                     } else {
                         Line(data: self.data,
                              frame: .constant(reader.frame(in: .local)),
