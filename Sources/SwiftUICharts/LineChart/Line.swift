@@ -9,6 +9,8 @@
 import SwiftUI
 
 public struct Line: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @ObservedObject var data: ChartData
     @Binding var frame: CGRect
     @Binding var touchLocation: CGPoint
@@ -17,6 +19,7 @@ public struct Line: View {
     @Binding var maxDataValue: Double?
     @State private var showFull: Bool = false
     @State var showBackground: Bool = true
+    @State var backgroundColor: Color = Color.clear
     
     var lineWidth: CGFloat = 2
     
@@ -80,10 +83,12 @@ public struct Line: View {
                 .animation(Animation.easeOut(duration: 1.2).delay(Double(self.index) * 0.4))
                 .onAppear {
                     self.showFull = true
-            }
-            .onDisappear {
-                self.showFull = false
-            }
+                }
+                .onDisappear {
+                    self.showFull = false
+                }
+                .background(backgroundColor)
+            
             if(self.showIndicator) {
                 IndicatorPoint()
                     .position(self.getClosestPointOnPath(touchLocation: self.touchLocation))
