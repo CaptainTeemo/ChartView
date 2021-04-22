@@ -16,6 +16,7 @@ public struct LineView: View {
     public var darkModeStyle: ChartStyle
     public var valueSpecifier: String
     public var legendSpecifier: String
+    public var backgroundColor: Color = .clear
     
     let lineWidth: CGFloat
     
@@ -83,6 +84,7 @@ public struct LineView: View {
                              minDataValue: .constant(nil),
                              maxDataValue: .constant(nil),
                              showBackground: false,
+                             backgroundColor: backgroundColor,
                              lineWidth: self.lineWidth,
                              gradient: self.style.gradientColor,
                              offset: CGPoint(x: lineStartPoint, y: -2)
