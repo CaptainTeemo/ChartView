@@ -32,15 +32,17 @@ public struct LineView: View {
     }
     @State private var hideHorizontalLines: Bool = false
     
-    public init(data: [Double],
+    @State private var lineStartPoint: CGFloat = 0
+    
+    public init(data: ChartData,
                 title: String? = nil,
-                showLegend: Bool = false,
+                showLegend: Bool = true,
                 style: ChartStyle = Styles.lineChartStyleOne,
                 lineWidth: CGFloat = 2,
                 valueSpecifier: String? = "%.1f",
                 legendSpecifier: String? = "%.2f") {
         
-        self.data = ChartData(points: data)
+        self.data = data
         self.title = title
         self.showLegend = showLegend
         self.style = style
@@ -69,26 +71,39 @@ public struct LineView: View {
                         .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.backgroundColor : self.style.backgroundColor)
                     if (showLegend) {
                         Legend(data: self.data,
-                               frame: .constant(reader.frame(in: .local)), hideHorizontalLines: self.$hideHorizontalLines, specifier: legendSpecifier)
-//                            .transition(.opacity)
-//                            .animation(Animation.easeOut(duration: 1).delay(1))
+                               frame: .constant(reader.frame(in: .local)),
+                               hideHorizontalLines: self.$hideHorizontalLines,
+                               startPoint: $lineStartPoint,
+                               specifier: legendSpecifier)
+                        Line(data: self.data,
+                             frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width - lineStartPoint, height: reader.frame(in: .local).height + 8)),
+                             touchLocation: self.$indicatorLocation,
+                             showIndicator: self.$hideHorizontalLines,
+                             minDataValue: .constant(nil),
+                             maxDataValue: .constant(nil),
+                             showBackground: false,
+                             lineWidth: self.lineWidth,
+                             gradient: self.style.gradientColor
+                        )
+                        .offset(x: lineStartPoint, y: -18)
+                    } else {
+                        Line(data: self.data,
+                             frame: .constant(reader.frame(in: .local)),
+                             touchLocation: self.$indicatorLocation,
+                             showIndicator: self.$hideHorizontalLines,
+                             minDataValue: .constant(nil),
+                             maxDataValue: .constant(nil),
+                             showBackground: false,
+                             lineWidth: self.lineWidth,
+                             gradient: self.style.gradientColor
+                        )
                     }
-                    Line(data: self.data,
-                         frame: .constant(reader.frame(in: .local)),
-                         touchLocation: self.$indicatorLocation,
-                         showIndicator: self.$hideHorizontalLines,
-                         minDataValue: .constant(nil),
-                         maxDataValue: .constant(nil),
-                         showBackground: false,
-                         lineWidth: self.lineWidth,
-                         gradient: self.style.gradientColor
-                    )
                 }
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
                             self.dragLocation = value.location
-                            self.indicatorLocation = CGPoint(x: max(value.location.x, 0), y: 32)
+                            self.indicatorLocation = CGPoint(x: max(value.location.x - lineStartPoint, 0), y: 32)
                             self.closestPoint = getClosestDataPoint(toPoint: value.location, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height)
                             self.opacity = 1
                             self.hideHorizontalLines = true
@@ -122,10 +137,10 @@ public struct LineView: View {
 struct LineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            LineView(data: [8,23,54,32,12,37,7,23,43], title: "Full chart", style: Styles.lineChartStyleOne)
+            LineView(data: ChartData(values: [("8", 8), ("23", 23), ("54", 54), ("32", 32), ("12", 12), ("37", 37), ("7", 7), ("23", 23), ("43", 43)]), title: "Full chart", style: Styles.lineChartStyleOne)
                 .preferredColorScheme(.dark)
             
-            LineView(data: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188], title: "Full chart", style: Styles.lineChartStyleOne)
+            LineView(data: ChartData(points: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188]), title: "Full chart", style: Styles.lineChartStyleOne)
                 .preferredColorScheme(.dark)
         }
     }
