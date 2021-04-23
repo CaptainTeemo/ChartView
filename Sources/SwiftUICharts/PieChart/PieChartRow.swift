@@ -47,7 +47,7 @@ public struct PieChartRow : View {
                         .animation(Animation.spring())
                 }
             }
-            .gesture(DragGesture()
+            .gesture(DragGesture(minimumDistance: 0)
                         .onChanged({ value in
                             let rect = geometry.frame(in: .local)
                             let isTouchInPie = isPointInCircle(point: value.location, circleRect: rect)
@@ -58,9 +58,10 @@ public struct PieChartRow : View {
                                 self.currentTouchedIndex = -1
                             }
                         })
-                        .onEnded({ value in
-                            self.currentTouchedIndex = -1
-                        }))
+//                        .onEnded({ value in
+//                            self.currentTouchedIndex = -1
+//                        })
+            )
         }
     }
 }
@@ -69,7 +70,7 @@ public struct PieChartRow : View {
 struct PieChartRow_Previews : PreviewProvider {
     static var previews: some View {
         Group {
-            PieChartRow(data:[8,23,54,32,12,37,7,23,43], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(false), currentValue: Binding.constant(0))
+            PieChartRow(data:[8,23,54,32,12,37,7,23,43], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(true), currentValue: Binding.constant(0))
                 .frame(width: 100, height: 100)
             PieChartRow(data:[0], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(false), currentValue: Binding.constant(0))
                 .frame(width: 100, height: 100)
