@@ -13,8 +13,8 @@ public struct PieChartView : View {
     public var legend: String?
     public var style: ChartStyle
     public var formSize:CGSize
-    public var dropShadow: Bool
     public var valueSpecifier:String
+    public var accentColors: [Color]?
     
     @State private var showValue = false
     @State private var currentIndex: Int = 0
@@ -26,7 +26,14 @@ public struct PieChartView : View {
         }
     }
     
-    public init(data: ChartData, legend: String? = nil, style: ChartStyle = Styles.pieChartStyleOne, form: CGSize? = ChartForm.medium, dropShadow: Bool? = true, valueSpecifier: String? = "%.1f"){
+    public init(
+        data: ChartData,
+        legend: String? = nil,
+        style: ChartStyle = Styles.pieChartStyleOne,
+        form: CGSize? = ChartForm.medium,
+        valueSpecifier: String? = "%.1f",
+        accentColors: [Color]? = nil
+    ) {
         self.data = data
         self.legend = legend
         self.style = style
@@ -34,16 +41,16 @@ public struct PieChartView : View {
         if self.formSize == ChartForm.large {
             self.formSize = ChartForm.extraLarge
         }
-        self.dropShadow = dropShadow!
         self.valueSpecifier = valueSpecifier!
+        self.accentColors = accentColors
+        
+        if let first = data.points.first {
+            currentValue = first.1
+        }
     }
     
     public var body: some View {
-        ZStack{
-            Rectangle()
-                .fill(self.style.backgroundColor)
-                .cornerRadius(20)
-                .shadow(color: self.style.dropShadowColor, radius: self.dropShadow ? 12 : 0)
+        ZStack {
             VStack(alignment: .leading) {
                 HStack {
                     VStack {
@@ -52,15 +59,21 @@ public struct PieChartView : View {
                             .font(.headline)
                             .foregroundColor(self.style.textColor)
                     }
-                    Spacer()
-                    Image(systemName: "chart.pie.fill")
-                        .imageScale(.large)
-                        .foregroundColor(self.style.legendTextColor)
                 }
                 .padding()
-                PieChartRow(data: data.onlyPoints(), backgroundColor: self.style.backgroundColor, accentColor: self.style.accentColor, showValue: $showValue, currentValue: $currentValue, currentIndex: $currentIndex)
+                
+                PieChartRow(
+                    data: data.onlyPoints(),
+                    backgroundColor: self.style.backgroundColor,
+                    accentColor: self.style.accentColor,
+                    accentColors: self.accentColors,
+                    showValue: $showValue,
+                    currentValue: $currentValue,
+                    currentIndex: $currentIndex
+                )
                     .foregroundColor(self.style.accentColor)
                     .padding(self.legend != nil ? 0 : 12).offset(y:self.legend != nil ? 0 : -10)
+                
                 if(self.legend != nil) {
                     Text(self.legend!)
                         .font(.headline)
@@ -69,7 +82,8 @@ public struct PieChartView : View {
                 }
                 
             }
-        }.frame(width: self.formSize.width, height: self.formSize.height)
+        }
+        .frame(width: self.formSize.width, height: self.formSize.height)
     }
 }
 
@@ -77,6 +91,7 @@ public struct PieChartView : View {
 struct PieChartView_Previews : PreviewProvider {
     static var previews: some View {
         PieChartView(data: ChartData(points: [56,78,53,65,54]), legend: "Legend")
+            .background(RoundedRectangle(cornerRadius: 10))
     }
 }
 #endif

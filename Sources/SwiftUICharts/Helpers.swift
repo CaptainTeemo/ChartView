@@ -155,7 +155,7 @@ public class ChartStyle {
     public var dropShadowColor: Color
     public weak var darkModeStyle: ChartStyle?
     
-    public init(backgroundColor: Color, accentColor: Color, secondGradientColor: Color, textColor: Color, legendTextColor: Color, dropShadowColor: Color){
+    public init(backgroundColor: Color, accentColor: Color, secondGradientColor: Color, textColor: Color, legendTextColor: Color, dropShadowColor: Color) {
         self.backgroundColor = backgroundColor
         self.accentColor = accentColor
         self.gradientColor = GradientColor(start: accentColor, end: secondGradientColor)
@@ -164,7 +164,7 @@ public class ChartStyle {
         self.dropShadowColor = dropShadowColor
     }
     
-    public init(backgroundColor: Color, accentColor: Color, gradientColor: GradientColor, textColor: Color, legendTextColor: Color, dropShadowColor: Color){
+    public init(backgroundColor: Color, accentColor: Color, gradientColor: GradientColor, textColor: Color, legendTextColor: Color, dropShadowColor: Color) {
         self.backgroundColor = backgroundColor
         self.accentColor = accentColor
         self.gradientColor = gradientColor
