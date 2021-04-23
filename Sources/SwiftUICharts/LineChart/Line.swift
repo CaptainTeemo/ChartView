@@ -20,6 +20,7 @@ public struct Line: View {
     @State private var showFull: Bool = false
     @State var showBackground: Bool = true
     @State var backgroundColor: Color = Color.clear
+    @State var backgroundRadius: CGFloat = 0
     
     var lineWidth: CGFloat = 2
     
@@ -87,7 +88,7 @@ public struct Line: View {
                 .onDisappear {
                     self.showFull = false
                 }
-                .background(backgroundColor)
+                .background(RoundedRectangle(cornerRadius: backgroundRadius).fill(backgroundColor))
             
             if(self.showIndicator) {
                 IndicatorPoint()

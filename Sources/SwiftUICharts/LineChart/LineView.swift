@@ -16,7 +16,8 @@ public struct LineView: View {
     public var darkModeStyle: ChartStyle
     public var valueSpecifier: String
     public var legendSpecifier: String
-    public var backgroundColor: Color
+    var backgroundColor: Color
+    var backgroundRadius: CGFloat
     
     let lineWidth: CGFloat
     
@@ -42,7 +43,8 @@ public struct LineView: View {
                 lineWidth: CGFloat = 2,
                 valueSpecifier: String? = "%.1f",
                 legendSpecifier: String? = "%.2f",
-                backgroundColor: Color = .clear) {
+                backgroundColor: Color = .clear,
+                backgroundRadius: CGFloat = 0) {
         
         self.data = data
         self.title = title
@@ -52,6 +54,7 @@ public struct LineView: View {
         self.valueSpecifier = valueSpecifier!
         self.legendSpecifier = legendSpecifier!
         self.backgroundColor = backgroundColor
+        self.backgroundRadius = backgroundRadius
         self.darkModeStyle = style.darkModeStyle != nil ? style.darkModeStyle! : Styles.lineViewDarkMode
     }
     
@@ -87,6 +90,7 @@ public struct LineView: View {
                              maxDataValue: .constant(nil),
                              showBackground: false,
                              backgroundColor: backgroundColor,
+                             backgroundRadius: backgroundRadius,
                              lineWidth: self.lineWidth,
                              gradient: self.style.gradientColor,
                              offset: CGPoint(x: lineStartPoint, y: -2)
@@ -100,6 +104,7 @@ public struct LineView: View {
                              maxDataValue: .constant(nil),
                              showBackground: false,
                              backgroundColor: backgroundColor,
+                             backgroundRadius: backgroundRadius,
                              lineWidth: self.lineWidth,
                              gradient: self.style.gradientColor
                         )
