@@ -28,12 +28,16 @@ public struct PieChartRow : View {
     
     @Binding var showValue: Bool
     @Binding var currentValue: Double
+    @Binding var currentIndex: Int
     
-    @State private var currentTouchedIndex = -1 {
+    @State private var currentTouchedIndex = 0 {
         didSet {
             if oldValue != currentTouchedIndex {
-                showValue = currentTouchedIndex != -1
-                currentValue = showValue ? slices[currentTouchedIndex].value : 0
+                currentIndex = currentTouchedIndex
+                
+                if !slices.isEmpty {
+                    currentValue = slices[currentTouchedIndex].value
+                }
             }
         }
     }
@@ -53,9 +57,9 @@ public struct PieChartRow : View {
                             let isTouchInPie = isPointInCircle(point: value.location, circleRect: rect)
                             if isTouchInPie {
                                 let touchDegree = degree(for: value.location, inCircleRect: rect)
-                                self.currentTouchedIndex = self.slices.firstIndex(where: { $0.startDeg < touchDegree && $0.endDeg > touchDegree }) ?? -1
+                                self.currentTouchedIndex = self.slices.firstIndex(where: { $0.startDeg < touchDegree && $0.endDeg > touchDegree }) ?? 0
                             } else {
-                                self.currentTouchedIndex = -1
+                                self.currentTouchedIndex = 0
                             }
                         })
 //                        .onEnded({ value in
@@ -70,9 +74,9 @@ public struct PieChartRow : View {
 struct PieChartRow_Previews : PreviewProvider {
     static var previews: some View {
         Group {
-            PieChartRow(data:[8,23,54,32,12,37,7,23,43], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(true), currentValue: Binding.constant(0))
+            PieChartRow(data:[8,23,54,32,12,37,7,23,43], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(true), currentValue: Binding.constant(0), currentIndex: .constant(0))
                 .frame(width: 100, height: 100)
-            PieChartRow(data:[0], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(false), currentValue: Binding.constant(0))
+            PieChartRow(data:[0], backgroundColor: Color(red: 252.0/255.0, green: 236.0/255.0, blue: 234.0/255.0), accentColor: Color(red: 225.0/255.0, green: 97.0/255.0, blue: 76.0/255.0), showValue: Binding.constant(false), currentValue: Binding.constant(0), currentIndex: .constant(0))
                 .frame(width: 100, height: 100)
         }
     }
