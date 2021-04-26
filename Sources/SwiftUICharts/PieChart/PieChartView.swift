@@ -45,7 +45,7 @@ public struct PieChartView : View {
         self.accentColors = accentColors
         
         if let first = data.points.first {
-            currentValue = first.1
+            _currentValue = State(initialValue: first.1)
         }
     }
     
