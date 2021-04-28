@@ -15,7 +15,7 @@ struct Legend: View {
     @Binding var startPoint: CGFloat
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     var specifier: String = "%.2f"
-    let padding:CGFloat = 20
+    let padding: CGFloat = 0
 
     var stepWidth: CGFloat {
         if data.points.count < 2 {
@@ -26,7 +26,7 @@ struct Legend: View {
     var stepHeight: CGFloat {
         let points = self.data.onlyPoints()
         if let min = points.min(), let max = points.max(), min != max {
-            if (min < 0){
+            if (min < 0) {
                 return (frame.size.height - padding) / CGFloat(max - min)
             }else{
                 return (frame.size.height - padding) / CGFloat(max - min)
@@ -41,48 +41,29 @@ struct Legend: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 0) {
-                ZStack(alignment: .topLeading) {
-                    ForEach((0...4), id: \.self) { height in
-                        Text("\(self.getYLegendSafe(height: height), specifier: specifier)")
-                            .offset(x: 0, y: self.getYposition(height: height) )
-                            .foregroundColor(Colors.LegendText)
-                            .font(.caption)
-                    }
-                }
-                .background(GeometryReader { reader in
-                    Color.clear.preference(key: ViewWidthKey.self, value: reader.frame(in: .local).width)
-                })
-                .onPreferenceChange(ViewWidthKey.self) {
-                    self.startPoint = $0 + 5
-                }
-                ZStack(alignment: .topLeading) {
-                    ForEach((0...4), id: \.self) { height in
-                        self.line(atHeight: self.getYLegendSafe(height: height), width: self.frame.width)
-                            .stroke(self.colorScheme == .dark ? Colors.LegendDarkColor : Colors.LegendColor, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, dash: [5, height == 0 ? 0 : 10]))
-                            .opacity((self.hideHorizontalLines && height != 0) ? 0 : 1)
-                            .rotationEffect(.degrees(180), anchor: .center)
-                            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                            .animation(.easeOut(duration: 0.2))
-                            .clipped()
-                    }
+        ZStack(alignment: .topLeading) {
+            ZStack(alignment: .topLeading) {
+                ForEach((0...4), id: \.self) { height in
+                    self.line(atHeight: self.getYLegendSafe(height: height), width: self.frame.width)
+                        .stroke(self.colorScheme == .dark ? Colors.LegendDarkColor : Colors.LegendColor, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, dash: [5, height == 0 ? 0 : 10]))
+                        .opacity(1)
+                        .rotationEffect(.degrees(180), anchor: .center)
+                        .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                        .animation(.easeOut(duration: 0.2))
+                        .clipped()
                 }
             }
-            HStack(spacing: 0) {
-                ForEach((0..<data.points.count)) { i in
-                    let title = data.points[i].0
-                    let width = (frame.size.width - padding * 2) / CGFloat(data.points.count - 1)
-                    HStack {
-                        Text(title)
-                            .foregroundColor(Colors.LegendText)
-                            .font(.caption)
-                        Spacer()
-                    }
-                    .frame(width: width)
+            
+            ZStack(alignment: .topLeading) {
+                ForEach((0...4), id: \.self) { height in
+                    Text("\(self.getYLegendSafe(height: height), specifier: specifier)")
+                        .offset(x: 0, y: self.getYposition(height: height))
+                        .foregroundColor(Colors.LegendText)
+                        .font(.caption)
+                        .frame(maxHeight: .infinity)
                 }
             }
-            .offset(x: padding + 10, y: 0)
+            .frame(maxHeight: .infinity)
         }
     }
     
@@ -95,7 +76,7 @@ struct Legend: View {
     
     func getYposition(height: Int) -> CGFloat {
         if let legend = getYLegend() {
-            return ((self.frame.height - padding) / 2) - ((CGFloat(legend[height]) - min) * self.stepHeight)
+            return ((self.frame.height) / 2) - ((CGFloat(legend[height]) - min) * self.stepHeight)
         }
         return 0
     }

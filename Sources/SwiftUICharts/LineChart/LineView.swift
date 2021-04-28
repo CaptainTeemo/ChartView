@@ -60,7 +60,7 @@ public struct LineView: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Group{
+            Group {
                 if (self.title != nil){
                     Text(self.title!)
                         .font(.title)
@@ -82,33 +82,32 @@ public struct LineView: View {
                                startPoint: $lineStartPoint,
                                specifier: legendSpecifier)
                         
-                        Line(data: self.data,
-                             frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height + 8)),
-                             touchLocation: self.$indicatorLocation,
-                             showIndicator: self.$hideHorizontalLines,
-                             minDataValue: .constant(nil),
-                             maxDataValue: .constant(nil),
-                             showBackground: false,
-                             backgroundColor: backgroundColor,
-                             backgroundRadius: backgroundRadius,
-                             lineWidth: self.lineWidth,
-                             gradient: self.style.gradientColor,
-                             offset: CGPoint(x: lineStartPoint, y: -2)
-                        )
-                    } else {
-                        Line(data: self.data,
-                             frame: .constant(reader.frame(in: .local)),
-                             touchLocation: self.$indicatorLocation,
-                             showIndicator: self.$hideHorizontalLines,
-                             minDataValue: .constant(nil),
-                             maxDataValue: .constant(nil),
-                             showBackground: false,
-                             backgroundColor: backgroundColor,
-                             backgroundRadius: backgroundRadius,
-                             lineWidth: self.lineWidth,
-                             gradient: self.style.gradientColor
-                        )
+//                        Line(data: self.data,
+//                             frame: .constant(CGRect(x: 0, y: 0, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height + 8)),
+//                             touchLocation: self.$indicatorLocation,
+//                             showIndicator: self.$hideHorizontalLines,
+//                             minDataValue: .constant(nil),
+//                             maxDataValue: .constant(nil),
+//                             showBackground: false,
+//                             backgroundColor: backgroundColor,
+//                             backgroundRadius: backgroundRadius,
+//                             lineWidth: self.lineWidth,
+//                             gradient: self.style.gradientColor,
+//                             offset: CGPoint(x: lineStartPoint, y: -2)
+//                        )
                     }
+                    Line(data: self.data,
+                         frame: .constant(reader.frame(in: .local)),
+                         touchLocation: self.$indicatorLocation,
+                         showIndicator: $hideHorizontalLines,
+                         minDataValue: .constant(nil),
+                         maxDataValue: .constant(nil),
+                         showBackground: false,
+                         backgroundColor: backgroundColor,
+                         backgroundRadius: backgroundRadius,
+                         lineWidth: self.lineWidth,
+                         gradient: self.style.gradientColor
+                    )
                 }
                 .gesture(
                     DragGesture()

@@ -26,7 +26,7 @@ public struct Line: View {
     
     var gradient: GradientColor = GradientColor(start: Colors.GradientPurple, end: Colors.GradientNeonBlue)
     var index: Int = 0
-    let padding: CGFloat = 30
+    let padding: CGFloat = 0
     var offset: CGPoint = .zero
     var curvedLines: Bool = true
     var stepWidth: CGFloat {
