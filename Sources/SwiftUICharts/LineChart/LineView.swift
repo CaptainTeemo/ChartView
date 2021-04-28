@@ -55,11 +55,13 @@ public struct LineView<TitleContent: View>: View {
     }
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 15) {
             if showTitleContent {
                 titleContent(self.currentDataNumber, self.currentDataText)
                     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
                     .frame(minHeight: 30)
+            } else {
+                Spacer().frame(minHeight: 30)
             }
             
             GeometryReader { reader in
