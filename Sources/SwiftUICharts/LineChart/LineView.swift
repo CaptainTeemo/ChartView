@@ -117,7 +117,7 @@ public struct LineView: View {
         return .zero
     }
     
-    func titleView<T: View>(@ViewBuilder content: (Double, String) -> T) -> some View {
+    public func titleView<T: View>(@ViewBuilder content: (Double, String) -> T) -> some View {
         VStack {
             content(self.currentDataNumber, self.currentDataText)
                 .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
