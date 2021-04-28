@@ -62,6 +62,13 @@ public struct LineView: View {
                 Rectangle()
                     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.backgroundColor : self.style.backgroundColor)
                 
+                if (showLegend) {
+                    Legend(data: self.data,
+                           frame: .constant(reader.frame(in: .local)),
+                           hideHorizontalLines: self.$hideHorizontalLines,
+                           specifier: legendSpecifier)
+                }
+
                 Line(data: self.data,
                         frame: .constant(reader.frame(in: .local)),
                         touchLocation: self.$indicatorLocation,
@@ -74,13 +81,6 @@ public struct LineView: View {
                         lineWidth: self.lineWidth,
                         gradient: self.style.gradientColor
                 )
-                
-                if (showLegend) {
-                    Legend(data: self.data,
-                            frame: .constant(reader.frame(in: .local)),
-                            hideHorizontalLines: self.$hideHorizontalLines,
-                            specifier: legendSpecifier)
-                }
             }
             .gesture(
                 DragGesture()
@@ -131,8 +131,8 @@ struct LineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             LineView(data: ChartData(
-                        values: [("8", 8), ("23", 23), ("54", 54), ("32", 32), ("12", 12), ("37", 37), ("7", 7), ("23", 23), ("43", 43)]),
-                     style: Styles.lineChartStyleOne)
+                        values: [("8", 8), ("23", 23), ("54", 54), ("32", 32), ("12", 12), ("37", 37), ("7", 7), ("23", 23), ("43", 43)])
+            )
                 .preferredColorScheme(.dark)
             
             LineView(data: ChartData(points: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188]), style: Styles.lineChartStyleOne)
