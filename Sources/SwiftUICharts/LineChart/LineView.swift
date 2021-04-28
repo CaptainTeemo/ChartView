@@ -61,7 +61,7 @@ public struct LineView<TitleContent: View>: View {
                     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
                     .frame(minHeight: 30)
             } else {
-                Spacer().frame(minHeight: 30)
+                Spacer().frame(maxHeight: 30)
             }
             
             GeometryReader { reader in
