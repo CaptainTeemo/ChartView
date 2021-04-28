@@ -75,6 +75,20 @@ public struct LineView: View {
                 ZStack {
                     Rectangle()
                         .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.backgroundColor : self.style.backgroundColor)
+                    
+                    Line(data: self.data,
+                         frame: .constant(reader.frame(in: .local)),
+                         touchLocation: self.$indicatorLocation,
+                         showIndicator: $hideHorizontalLines,
+                         minDataValue: .constant(nil),
+                         maxDataValue: .constant(nil),
+                         showBackground: false,
+                         backgroundColor: backgroundColor,
+                         backgroundRadius: backgroundRadius,
+                         lineWidth: self.lineWidth,
+                         gradient: self.style.gradientColor
+                    )
+                    
                     if (showLegend) {
                         Legend(data: self.data,
                                frame: .constant(reader.frame(in: .local)),
@@ -96,18 +110,6 @@ public struct LineView: View {
 //                             offset: CGPoint(x: lineStartPoint, y: -2)
 //                        )
                     }
-                    Line(data: self.data,
-                         frame: .constant(reader.frame(in: .local)),
-                         touchLocation: self.$indicatorLocation,
-                         showIndicator: $hideHorizontalLines,
-                         minDataValue: .constant(nil),
-                         maxDataValue: .constant(nil),
-                         showBackground: false,
-                         backgroundColor: backgroundColor,
-                         backgroundRadius: backgroundRadius,
-                         lineWidth: self.lineWidth,
-                         gradient: self.style.gradientColor
-                    )
                 }
                 .gesture(
                     DragGesture()
