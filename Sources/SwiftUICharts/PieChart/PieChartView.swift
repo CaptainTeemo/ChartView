@@ -51,7 +51,7 @@ public struct PieChartView : View {
     
     public var body: some View {
         ZStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .center) {
                 HStack {
                     VStack {
                         Text(self.data.points[currentIndex].0)
@@ -90,7 +90,7 @@ public struct PieChartView : View {
 #if DEBUG
 struct PieChartView_Previews : PreviewProvider {
     static var previews: some View {
-        PieChartView(data: ChartData(points: [56,78,53,65,54]), legend: "Legend")
+        PieChartView(data: ChartData(points: [56.0,78.0,53.0,65.0,54.0]), legend: "Legend")
             .background(RoundedRectangle(cornerRadius: 10))
     }
 }
