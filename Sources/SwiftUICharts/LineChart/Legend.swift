@@ -12,7 +12,6 @@ struct Legend: View {
     @ObservedObject var data: ChartData
     @Binding var frame: CGRect
     @Binding var hideHorizontalLines: Bool
-    @Binding var startPoint: CGFloat
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     var specifier: String = "%.2f"
     let padding: CGFloat = 0
@@ -108,7 +107,7 @@ private struct ViewWidthKey: PreferenceKey {
 struct Legend_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader{ geometry in
-            Legend(data: ChartData(values: [("1", 0.2), ("2", 0.4), ("3", 1.4), ("4", 4.5), ("5", 24.5)]), frame: .constant(geometry.frame(in: .local)), hideHorizontalLines: .constant(false), startPoint: .constant(0))
+            Legend(data: ChartData(values: [("1", 0.2), ("2", 0.4), ("3", 1.4), ("4", 4.5), ("5", 24.5)]), frame: .constant(geometry.frame(in: .local)), hideHorizontalLines: .constant(false))
         }
         .frame(width: 320, height: 320)
     }
