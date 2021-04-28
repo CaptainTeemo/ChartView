@@ -60,7 +60,7 @@ public struct LineView: View {
         GeometryReader { reader in
             ZStack {
                 Rectangle()
-                    .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.backgroundColor : self.style.backgroundColor)
+                    .foregroundColor(self.backgroundColor)
                 
                 if (showLegend) {
                     Legend(data: self.data,
