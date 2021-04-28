@@ -88,7 +88,7 @@ public struct Line: View {
                 .onDisappear {
                     self.showFull = false
                 }
-                .background(RoundedRectangle(cornerRadius: backgroundRadius).fill(backgroundColor))
+                .background(RoundedRectangle(cornerRadius: backgroundRadius))
             
             if(self.showIndicator) {
                 IndicatorPoint()
