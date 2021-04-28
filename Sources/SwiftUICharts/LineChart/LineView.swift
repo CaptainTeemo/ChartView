@@ -8,8 +8,9 @@
 
 import SwiftUI
 
-public struct LineView: View {
+public struct LineView<TitleContent: View>: View {
     @ObservedObject var data: ChartData
+    public var titleContent: (Double, String) -> TitleContent
     public var showLegend: Bool
     public var style: ChartStyle
     public var darkModeStyle: ChartStyle
@@ -21,22 +22,18 @@ public struct LineView: View {
     let lineWidth: CGFloat
     
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    @State private var legendText: String = " "
+    @State private var showTitleContent = false
     @State private var dragLocation: CGPoint = .zero
     @State private var indicatorLocation: CGPoint = .zero
     @State private var closestPoint: CGPoint = .zero
     @State private var opacity: Double = 0
     @State private var hideHorizontalLines: Bool = false
         
-    @State private var currentDataNumber: Double = 0 {
-        didSet {
-            self.legendText = "\(String(format: "%.2f", self.currentDataNumber)) \(currentDataText)"
-        }
-    }
-    
+    @State private var currentDataNumber: Double = 0
     @State private var currentDataText: String = ""
 
     public init(data: ChartData,
+                @ViewBuilder titleContent: @escaping (Double, String) -> TitleContent,
                 showLegend: Bool = true,
                 style: ChartStyle = Styles.lineChartStyleOne,
                 lineWidth: CGFloat = 2,
@@ -46,6 +43,7 @@ public struct LineView: View {
                 backgroundRadius: CGFloat = 0) {
         
         self.data = data
+        self.titleContent = titleContent
         self.showLegend = showLegend
         self.style = style
         self.lineWidth = lineWidth
@@ -57,7 +55,14 @@ public struct LineView: View {
     }
     
     public var body: some View {
-        GeometryReader { reader in
+        VStack {
+            if showTitleContent {
+                titleContent(self.currentDataNumber, self.currentDataText)
+                    .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
+                    .frame(minHeight: 30)
+            }
+            
+            GeometryReader { reader in
             ZStack {
                 Rectangle()
                     .foregroundColor(self.backgroundColor)
@@ -90,13 +95,15 @@ public struct LineView: View {
                         self.closestPoint = getClosestDataPoint(toPoint: value.location, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height)
                         self.opacity = 1
                         self.hideHorizontalLines = true
+                        self.showTitleContent = true
                     })
                     .onEnded({ value in
                         self.opacity = 0
                         self.hideHorizontalLines = false
-                        self.legendText = ""
+                        self.showTitleContent = false
                     })
             )
+        }
         }
     }
     
@@ -116,14 +123,18 @@ public struct LineView: View {
         }
         return .zero
     }
-    
-    public func titleView<T: View>(@ViewBuilder content: (Double, String) -> T) -> some View {
-        VStack {
-            content(self.currentDataNumber, self.currentDataText)
-                .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
-                .frame(minHeight: 30)
-            body
-        }
+}
+
+public extension LineView where TitleContent == EmptyView {
+    init(data: ChartData,
+         showLegend: Bool = true,
+         style: ChartStyle = Styles.lineChartStyleOne,
+         lineWidth: CGFloat = 2,
+         valueSpecifier: String? = "%.1f",
+         legendSpecifier: String? = "%.2f",
+         backgroundColor: Color = .clear,
+         backgroundRadius: CGFloat = 0) {
+        self.init(data: data, titleContent: { _, _ in EmptyView() }, showLegend: showLegend, style: style, lineWidth: lineWidth, valueSpecifier: valueSpecifier, legendSpecifier: legendSpecifier, backgroundColor: backgroundColor, backgroundRadius: backgroundRadius)
     }
 }
 

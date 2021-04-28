@@ -89,6 +89,7 @@ public struct Line: View {
                     self.showFull = false
                 }
                 .background(RoundedRectangle(cornerRadius: backgroundRadius).fill(Color.clear))
+                .contentShape(Rectangle())
             
             if(self.showIndicator) {
                 IndicatorPoint()
