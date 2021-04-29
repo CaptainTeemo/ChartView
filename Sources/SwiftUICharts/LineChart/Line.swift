@@ -28,7 +28,7 @@ public struct Line: View {
     var index: Int = 0
     let padding: CGFloat = 0
     var offset: CGPoint = .zero
-    var curvedLines: Bool = true
+    var curvedLines: Bool = false
     var stepWidth: CGFloat {
         if data.points.count < 2 {
             return 0

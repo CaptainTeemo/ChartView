@@ -72,7 +72,8 @@ public struct PieChartView : View {
                     currentIndex: $currentIndex
                 )
                     .foregroundColor(self.style.accentColor)
-                    .padding(self.legend != nil ? 0 : 12).offset(y:self.legend != nil ? 0 : -10)
+                    .padding(self.legend != nil ? 0 : 12)
+                    .offset(y:self.legend != nil ? 0 : -10)
                 
                 if(self.legend != nil) {
                     Text(self.legend!)
@@ -90,7 +91,7 @@ public struct PieChartView : View {
 #if DEBUG
 struct PieChartView_Previews : PreviewProvider {
     static var previews: some View {
-        PieChartView(data: ChartData(points: [56.0,78.0,53.0,65.0,54.0]), legend: "Legend")
+        PieChartView(data: ChartData(points: [56.0,78.0,53.0,65.0,54.0]))
             .background(RoundedRectangle(cornerRadius: 10))
     }
 }

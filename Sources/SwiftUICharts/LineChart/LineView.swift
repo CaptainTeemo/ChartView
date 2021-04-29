@@ -20,6 +20,7 @@ public struct LineView<TitleContent: View>: View {
     var backgroundRadius: CGFloat
     
     let lineWidth: CGFloat
+    let curvedLines: Bool
     
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var showTitleContent = false
@@ -37,6 +38,7 @@ public struct LineView<TitleContent: View>: View {
                 showLegend: Bool = true,
                 style: ChartStyle = Styles.lineChartStyleOne,
                 lineWidth: CGFloat = 2,
+                curvedLines: Bool = true,
                 valueSpecifier: String? = "%.1f",
                 legendSpecifier: String? = "%.2f",
                 backgroundColor: Color = .clear,
@@ -47,6 +49,7 @@ public struct LineView<TitleContent: View>: View {
         self.showLegend = showLegend
         self.style = style
         self.lineWidth = lineWidth
+        self.curvedLines = curvedLines
         self.valueSpecifier = valueSpecifier!
         self.legendSpecifier = legendSpecifier!
         self.backgroundColor = backgroundColor
@@ -86,7 +89,8 @@ public struct LineView<TitleContent: View>: View {
                         backgroundColor: backgroundColor,
                         backgroundRadius: backgroundRadius,
                         lineWidth: self.lineWidth,
-                        gradient: self.style.gradientColor
+                        gradient: self.style.gradientColor,
+                        curvedLines: self.curvedLines
                 )
             }
             .gesture(
@@ -132,11 +136,12 @@ public extension LineView where TitleContent == EmptyView {
          showLegend: Bool = true,
          style: ChartStyle = Styles.lineChartStyleOne,
          lineWidth: CGFloat = 2,
+         curvedLines: Bool = true,
          valueSpecifier: String? = "%.1f",
          legendSpecifier: String? = "%.2f",
          backgroundColor: Color = .clear,
          backgroundRadius: CGFloat = 0) {
-        self.init(data: data, titleContent: { _, _ in EmptyView() }, showLegend: showLegend, style: style, lineWidth: lineWidth, valueSpecifier: valueSpecifier, legendSpecifier: legendSpecifier, backgroundColor: backgroundColor, backgroundRadius: backgroundRadius)
+        self.init(data: data, titleContent: { _, _ in EmptyView() }, showLegend: showLegend, style: style, lineWidth: lineWidth, curvedLines: curvedLines, valueSpecifier: valueSpecifier, legendSpecifier: legendSpecifier, backgroundColor: backgroundColor, backgroundRadius: backgroundRadius)
     }
 }
 
@@ -144,7 +149,8 @@ struct LineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             LineView(data: ChartData(
-                        values: [("8", 8), ("23", 23), ("54", 54), ("32", 32), ("12", 12), ("37", 37), ("7", 7), ("23", 23), ("43", 43)])
+                        values: [("8", 8), ("23", 23), ("54", 54), ("32", 32), ("12", 12), ("37", 37), ("7", 7), ("23", 23), ("43", 43)]),
+                     curvedLines: false
             )
                 .preferredColorScheme(.dark)
             
