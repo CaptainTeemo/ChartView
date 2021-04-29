@@ -97,8 +97,8 @@ public struct LineView<TitleContent: View>: View {
                 DragGesture()
                     .onChanged({ value in
                         self.dragLocation = value.location
-                        self.indicatorLocation = CGPoint(x: max(value.location.x, 0), y: 32)
-                        self.closestPoint = getClosestDataPoint(toPoint: value.location, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height)
+//                        self.indicatorLocation = CGPoint(x: max(value.location.x, 0), y: 32)
+                        self.indicatorLocation = getClosestDataPoint(toPoint: value.location, width: reader.frame(in: .local).width, height: reader.frame(in: .local).height)
                         self.opacity = 1
                         self.hideHorizontalLines = true
                         self.showTitleContent = true
@@ -119,8 +119,9 @@ public struct LineView<TitleContent: View>: View {
         let stepHeight = height / CGFloat(points.max { $0.1 > $1.1 }!.1 + points.min { $0.1 < $1.1 }!.1)
         
         let step = toPoint.x / stepWidth
-        let tail = step - floor(step)
-        let index = Int(tail >= 0.5 ? ceil(step) : floor(step))
+//        let tail = step - floor(step)
+//        let index = Int(tail >= 0.5 ? ceil(step) : floor(step))
+        let index = Int(step)
         if (index >= 0 && index < points.count) {
             let point = points[index]
             self.currentDataNumber = point.1
