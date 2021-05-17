@@ -122,13 +122,20 @@ public struct LineView<TitleContent: View>: View {
 //        let tail = step - floor(step)
 //        let index = Int(tail >= 0.5 ? ceil(step) : floor(step))
         let index = Int(step)
-        if (index >= 0 && index < points.count) {
-            let point = points[index]
-            self.currentDataNumber = point.1
-            self.currentDataText = point.0
-            return CGPoint(x: CGFloat(index) * stepWidth, y: CGFloat(point.1) * stepHeight)
+        var fixedIndex = index
+        switch index {
+            case -Int.max..<0:
+                fixedIndex = 0
+            case points.count..<Int.max:
+                fixedIndex = points.count - 1
+            default:
+                fixedIndex = index
         }
-        return .zero
+        
+        let point = points[fixedIndex]
+        self.currentDataNumber = point.1
+        self.currentDataText = point.0
+        return CGPoint(x: CGFloat(fixedIndex) * stepWidth, y: CGFloat(point.1) * stepHeight)
     }
 }
 
@@ -153,9 +160,6 @@ struct LineView_Previews: PreviewProvider {
                         values: [("8", 8), ("23", 23), ("54", 54), ("32", 32), ("12", 12), ("37", 37), ("7", 7), ("23", 23), ("43", 43)]),
                      curvedLines: false
             )
-                .preferredColorScheme(.dark)
-            
-            LineView(data: ChartData(points: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188]), style: Styles.lineChartStyleOne)
                 .preferredColorScheme(.dark)
         }
     }
